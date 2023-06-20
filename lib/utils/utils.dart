@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils{
+
+  static averageRating(List<int> ratingList){
+    var average = 0;
+    for(int i = 0; i<ratingList.length; i++){
+      average += ratingList[i];
+    }
+    return double.parse((average / ratingList.length).toStringAsFixed(1));
+  }
 
   static void fieldFocusChange(
       BuildContext context,

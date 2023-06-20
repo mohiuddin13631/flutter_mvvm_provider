@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/res/components/round_button.dart';
 import 'package:mvvm/utils/routes/routes_name.dart';
 import 'package:mvvm/utils/utils.dart';
+import 'package:mvvm/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
@@ -33,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authViewModel = Provider.of<AuthViewModel>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
@@ -81,7 +84,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
               ),
               SizedBox(height: size.height * .1,),
-              RoundButton(title: "Login", onPress: () {
+              RoundButton(
+                title: "Login",
+                loading: authViewModel.loading,
+                onPress: () {
 
                 if(_emailController.text.isEmpty){
                   Utils.flushBarErrorMessage("Please enter email", context);
@@ -91,10 +97,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   Utils.toastMessage("Password length should be more than 6");
                 }else{
                   print("Tapped");
+                  Map data = {
+                    "email": _emailController.text.toString(),
+                    "password": _passwordController.text.toString()
+                  };
+
+                  // var map = Map<String,dynamic>();
+                  //
+                  // map['email'] = _emailController.text.toString();
+                  // map['password'] = _passwordController.text.toString();
+
+                  authViewModel.loginApi(data,context);
+
+                  print("Api hit");
                 }
 
-
-              },)
+              },),
+              SizedBox(height: size.height * .01,),
+              TextButton(onPressed: () {
+                Navigator.pushNamed(context, RoutesName.singUp);
+              }, child: Text("Don't have an account? Signup",style: TextStyle(color: Colors.black),))
             ],
           ),
         )

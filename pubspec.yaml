@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.5
   another_flushbar: ^1.12.29
   fluttertoast: ^8.2.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
